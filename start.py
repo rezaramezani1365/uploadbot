@@ -2,8 +2,11 @@ import os
 import requests
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+from dotenv import load_dotenv
 
-BOT_TOKEN = "6341875224:AAFH19Td8nvWoOfQNkH2l9dfl9hvNyViZ80"   # ← توکن رباتت را اینجا بگذار
+load_dotenv()  # بارگذاری متغیرهای محیطی از فایل .env
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")  # خواندن توکن از فایل .env
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("سلام! لینک مستقیم ویدیو (.mp4) را بفرست تا برات دانلود کنم.")
@@ -40,7 +43,7 @@ def main():
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_link))
 
-    app.run_polling()   # ← بدون async
+    app.run_polling()
 
 if __name__ == "__main__":
-    main()              # ← بدون asyncio.run()
+    main()
